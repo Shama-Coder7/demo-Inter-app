@@ -1,10 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header';
+import ImageSlider from './components/ImageSlider';
 
 function App() {
+  const country = "India";
   return (
     <div className="App">
-      <div>Hello Demo</div>
+      <Header country={country}/>
+      <ImageSlider/>
     </div>
   );
 }
