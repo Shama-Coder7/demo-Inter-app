@@ -1,7 +1,6 @@
-import './App.css';
 import Header from './components/Header';
 import ImageSlider from './components/ImageSlider';
-
+import './App.css';
 function App() {
   const country = "India";
   return (
