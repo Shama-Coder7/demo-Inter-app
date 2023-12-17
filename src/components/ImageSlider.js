@@ -6,43 +6,38 @@ const data = [
   'https://images.ctfassets.net/hrltx12pl8hq/3Z1N8LpxtXNQhBD5EnIg8X/975e2497dc598bb64fde390592ae1133/spring-images-min.jpg',
   'https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg?size=626&ext=jpg&ga=GA1.1.2116175301.1701561600&semt=sph',
 ];
-const ImageSlider = () => {
-  const [imageSlider, setImageSlider] = useState(0);
 
-  const handlePreviousImageSlider = () => {
-    // if (imageSlider === 0) setImageSlider(data.length - 1);
-    // else setImageSlider(imageSlider - 1);
-    setImageSlider(!imageSlider ? data.length - 1 : imageSlider - 1);
+const ImageSlider = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+  const [imageSlider, setImageSlider] = useState(data);
+
+  const nextImage = () => {
+    setCurrentImage((prevImage) => (prevImage + 1) % imageSlider.length);
   };
 
-  const handleNextImageSlider = () => {
-    // if (imageSlider === 0) setImageSlider(data.length + 1);
-    // else setImageSlider(imageSlider + 1);
-    setImageSlider((imageSlider + 1) % data.length);
+  const prevImage = () => {
+    setCurrentImage((prevImage) => (prevImage - 1 + imageSlider.length) % imageSlider.length);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      handleNextImageSlider();
-    }, 2000);
-  }, [imageSlider]);
+    const interval = setInterval(nextImage, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="flex justify-center">
-      <button onClick={handlePreviousImageSlider}>◀️</button>
-      {/* <img src={data[imageSlider]} alt="wallpaper" className="w-[700px] h-56" /> */}
-      {data.map((url, index) => (
-        <img
-          key={index}
-          src={url}
-          alt="wallpaper"
-          className={
-            'w-[700px] h-[500px] object-contain' +
-            (imageSlider === index ? 'block' : 'hidden')
-          }
-        />
-      ))}
-      <button onClick={handleNextImageSlider}>▶️</button>
+    <div style={{ position: 'relative' }}>
+      <button onClick={prevImage} style={{ position: 'absolute', top: '50%', left: 0, transform: 'translateY(-50%)' }}>
+         ◀️
+      </button>
+      <img
+        src={imageSlider[currentImage]}
+        alt="slider"
+        style={{ height: '300px', width: 'auto', margin: '0 auto', display: 'block' }}
+      />
+      <button onClick={nextImage} style={{ position: 'absolute', top: '50%', right: 0, transform: 'translateY(-50%)' }}>
+        ▶️
+      </button>
     </div>
   );
 };
